@@ -20,13 +20,16 @@ var winston = require('./config/winston');
 var path = require('path');
 var app = express();
 
-mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true });
+var mongo_uri = 'mongodb://localhost:27017/missioncontrol';
+
+mongoose.connect(mongo_uri, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
+
 
 var db = mongoose.connection;
 db.on('error', function () {
     var msg = 'unable to connect to database at ';
-    throw new Error(msg + process.env.DB_HOST);
+    throw new Error(msg + mongo_uri);
 });
 
 // set logging with morgan
